@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>   <!-- --- -->
+    <title>Homepage</title>
+</head>
+<body>
+    <%- include('./partials/nav') %>  <!-- --- -->
+    <div class="container mt-3 row row-cols-3 gap-3rem">
+        <% blogs.forEach(blog => { %>
+            <div class="col">
+                <div class="card col" style="width: 18rem;">
+                    <img src="<%= blog.coverImageURL %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= blog.title %></h5>
+                        <div class="view-del" style="display: flex; gap: 2rem;">
+                            <a href="/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                            <% if (locals.user && locals.user._id.toString() === blog.createdBy._id.toString()) { %>
+                            <form action="/blog/<%= blog._id %>?_method=DELETE" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="edit/<%= blog._id %>" class="btn btn-info">Edit</a>
+                            <% } %>
+                            
+                        </div>
+                        
+                    </div>
+                    <div class="card-subtitle text-muted mb-2">
+                        <%= blog.createdAt.toLocaleDateString() %> 
+                    </div>
+                </div>
+            </div>
+           
+        <% }) %>
+    </div>
+    <%- include('./partials/script') %>  <!-- --- -->
+</body>
+</html>
